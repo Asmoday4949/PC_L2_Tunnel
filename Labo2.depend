@@ -20,3 +20,26 @@
 1515763841 source:d:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.c
 	"tools.h"
 
+1515781721 source:d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\main.c
+	<stdio.h>
+	<stdlib.h>
+	"part1/tunnel.h"
+	"part1/tunnel.h"
+	"part1/tunnel.h"
+
+1515783974 d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\part1\tunnel.h
+	<time.h>
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+	<semaphore.h>
+	"../tools.h"
+
+1515782703 d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\tools.h
+
+1515783865 source:d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\part1\tunnel.c
+	"tunnel.h"
+
+1515782886 source:d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\tools.c
+	"tools.h"
+
