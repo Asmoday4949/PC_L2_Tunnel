@@ -12,8 +12,9 @@
 #define DEBUG
 
 // Program macros
-#define TUNNEL_MAX_CARS 20
+#define TUNNEL_MAX_CARS 5
 #define TUNNEL_DEFAULT_LENGTH 25
+#define TUNNEL_TROUGH_TIME 10
 #define GENERATOR_MAX_CARS 50
 #define GENERATOR_SPAWNER_TIME 0.1
 
@@ -23,6 +24,12 @@ enum Path
     NORTH_WAY = 0,
     SOUTH_WAY = 1
 };
+
+// Semaphores for protecting the arrays
+sem_t semSouthEntrance;
+sem_t semSouthWay;
+sem_t semNorthEntrance;
+sem_t semNorthWay;
 
 // Array of cars
 int southEntrance[GENERATOR_MAX_CARS];

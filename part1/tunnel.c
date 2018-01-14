@@ -5,6 +5,11 @@ int start()
     pthread_t carThreads[GENERATOR_MAX_CARS];
     pthread_t displayThread;
 
+    sem_init(&semNorthEntrance, 0, 1);
+    sem_init(&semNorthWay, 0, 1);
+    sem_init(&semSouthEntrance, 0, 1);
+    sem_init(&semSouthWay, 0, 1);
+
     initArray(northEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(northWay, TUNNEL_MAX_CARS, NOTVALID);
     initArray(southEntrance, GENERATOR_MAX_CARS, NOTVALID);
@@ -63,23 +68,31 @@ void* car(void* idCar)
 {
     int id = *((int*)idCar);
     enum Path path = definePath();
-    clock_t clockStart = clock();
+    bool outTunnel = true;
+    clock_t clockStart;
     clock_t clockEnd;
+    double elapsedTime;
 
-    if(path == NORTH_WAY)
+    do
     {
+        if(path == NORTH_WAY)
+        {
+
+        }
+        else if(path == SOUTH_WAY)
+        {
+        }
     }
-    else if(path == SOUTH_WAY)
-    {
-    }
+    while(!outTunnel);
 
     return NULL;
 }
 
 void* display(void* data)
 {
-    printf("north entrance : ");
+    clearConsole();
 
+    printf("north entrance : ");
     printArray(northEntrance, GENERATOR_MAX_CARS);
 
     rc();rc();
