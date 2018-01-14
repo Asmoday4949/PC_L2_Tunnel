@@ -2,21 +2,19 @@
 
 int start()
 {
-    pthread_t threads[GENERATOR_MAX_CARS];
-    pthread_t display;
+    pthread_t carThreads[GENERATOR_MAX_CARS];
+    pthread_t displayThread;
 
     initArray(northEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(northWay, TUNNEL_MAX_CARS, NOTVALID);
     initArray(southEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(southWay, TUNNEL_MAX_CARS, NOTVALID);
 
-    /*
-    // Crash, why ? don't know ... :P
-    if(pthread_create(&display, NULL, display, NULL) != 0)
+    // Launch the display thread
+    if(pthread_create(&displayThread, NULL, display, NULL) != 0)
     {
         exit(-1);
     }
-    */
 
     bool running = true;
     clock_t clockStart = clock();
@@ -32,7 +30,7 @@ int start()
 
         if(timeSec >= GENERATOR_SPAWNER_TIME)
         {
-            if(pthread_create(&threads[carsCounter], NULL, car, &carsCounter) != 0)
+            if(pthread_create(&carThreads[carsCounter], NULL, car, &carsCounter) != 0)
             {
                 exit(-1);
             }
@@ -47,11 +45,17 @@ int start()
     }
     while(running);
 
+    // Some stuff here ?
+
+    // Waiting on the end of all the threads
     int i;
     for(i = 0; i < GENERATOR_MAX_CARS; i++)
     {
-        pthread_join(threads[i], NULL);
+        pthread_join(carThreads[i], NULL);
     }
+
+    pthread_join(displayThread, NULL);
+
     return 0;
 }
 
