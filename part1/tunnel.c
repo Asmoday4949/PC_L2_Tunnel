@@ -62,17 +62,15 @@ int start()
 void* car(void* idCar)
 {
     int id = *((int*)idCar);
-    int path = definePath();
+    enum Path path = definePath();
     clock_t clockStart = clock();
     clock_t clockEnd;
 
-    if(path)
+    if(path == NORTH_WAY)
     {
-
     }
-    else
+    else if(path == SOUTH_WAY)
     {
-
     }
 
     return NULL;
