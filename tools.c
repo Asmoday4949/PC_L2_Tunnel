@@ -25,3 +25,8 @@ void rc()
 {
     printf("\n");
 }
+
+double getElapsedTime(clock_t* clockStart, clock_t* clockEnd)
+{
+    return (double)(*clockEnd - *clockStart) / (CLOCKS_PER_SEC);
+}
