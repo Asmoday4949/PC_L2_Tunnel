@@ -43,8 +43,28 @@
 1515782886 source:d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\tools.c
 	"tools.h"
 
-1515846847 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.c
+1515921728 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.c
 	"tools.h"
 
-1515846847 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.h
+1515921682 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.h
+	<time.h>
+
+1515920072 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"part1/tunnel.h"
+	"part1/tunnel.h"
+	"part1/tunnel.h"
+
+1515923093 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part1\tunnel.h
+	<time.h>
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+	<semaphore.h>
+	"../tools.h"
+
+1515921688 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part1\tunnel.c
+	"tunnel.h"
+	"windows.h"
 

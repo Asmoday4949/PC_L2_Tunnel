@@ -25,7 +25,6 @@ int start()
         }
     }
 
-
     for(i = 0; i < GENERATOR_MAX_CARS; i++)
     {
         pthread_join(threads[i], NULL);
@@ -34,10 +33,12 @@ int start()
     return 0;
 }
 
-void* car(int* idCar)
+void* car(void* idCar)
 {
-    int id = *idCar;
+    int id = *((int*)idCar);
     int path = definePath();
+    clock_t clockStart = clock();
+    clock_t clockEnd;
 
     if(path)
     {
@@ -47,6 +48,8 @@ void* car(int* idCar)
     {
 
     }
+
+    return NULL;
 }
 
 void* display(void* data)
@@ -72,6 +75,8 @@ void* display(void* data)
     printf("south entrance : ");
     printArray(southEntrance, GENERATOR_MAX_CARS);
     rc();
+
+    return NULL;
 }
 
 void printWall(int size)

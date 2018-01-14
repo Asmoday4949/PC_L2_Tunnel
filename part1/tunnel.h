@@ -10,7 +10,7 @@
 
 #define TUNNEL_MAX_CARS 20
 #define GENERATOR_MAX_CARS 50
-#define GENERATOR_TIME_MS 3000
+#define GENERATOR_SPAWNER_TIME 3000
 #define TUNNEL_DEFAULT_LENGTH 25
 
 // Array of cars
@@ -27,7 +27,7 @@ int start();
 /*
 Thread function, each car thread represent a car
 */
-void* car(int *idCar);
+void* car(void *idCar);
 
 /*
 thread for displaying the tunnel and the car
