@@ -21,6 +21,24 @@ void printArray(int* array, int size)
     }
 }
 
+int getArrayLength(int* array, int size, int endValue)
+{
+    int length = 0;
+    bool lengthFound = false;
+
+    while(length < size && !lengthFound)
+    {
+        lengthFound = array[length] == endValue;
+
+        if(!lengthFound)
+        {
+            length++;
+        }
+    }
+
+    return length;
+}
+
 void rc()
 {
     printf("\n");
