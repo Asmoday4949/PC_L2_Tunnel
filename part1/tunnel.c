@@ -10,26 +10,48 @@ int start()
     initArray(southEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(southWay, TUNNEL_MAX_CARS, NOTVALID);
 
+    /*
+    // Crash, why ? don't know ... :P
     if(pthread_create(&display, NULL, display, NULL) != 0)
     {
         exit(-1);
     }
+    */
 
-    //starting the car
-    int i;
-    for(i = 0;i < GENERATOR_MAX_CARS; i++)
+    bool running = true;
+    clock_t clockStart = clock();
+    clock_t clockEnd;
+    double timeSec = 0;
+    int carsCounter = 0;
+
+    // Spawn one car every x seconds (x defined by GENERATOR_SPAWNER_TIME)
+    do
     {
-        if(pthread_create(&threads[i], NULL, car, &i) != 0)
+        clockEnd = clock();
+        timeSec = getElapsedTime(&clockStart, &clockEnd);
+
+        if(timeSec >= GENERATOR_SPAWNER_TIME)
         {
-            exit(-1);
+            if(pthread_create(&threads[carsCounter], NULL, car, &carsCounter) != 0)
+            {
+                exit(-1);
+            }
+
+            #if defined(DEBUG)
+                printf("Car spawned with id = %d\n", carsCounter);
+            #endif
+
+            running = ++carsCounter < GENERATOR_MAX_CARS;
+            clockStart = clock();
         }
     }
+    while(running);
 
+    int i;
     for(i = 0; i < GENERATOR_MAX_CARS; i++)
     {
         pthread_join(threads[i], NULL);
     }
-
     return 0;
 }
 
@@ -55,6 +77,7 @@ void* car(void* idCar)
 void* display(void* data)
 {
     printf("north entrance : ");
+
     printArray(northEntrance, GENERATOR_MAX_CARS);
 
     rc();rc();
