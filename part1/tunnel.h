@@ -8,15 +8,16 @@
 #include <semaphore.h>
 #include "../tools.h"
 
-#define MAX_CARS_TUNNEL 20
-#define COUNT_GEN_CARS 50
+#define TUNNEL_MAX_CARS 20
+#define GENERATOR_MAX_CARS 50
+#define GENERATOR_TIME_MS 3000
 #define TUNNEL_DEFAULT_LENGTH 25
 
 // Array of cars
-int southEntrance[COUNT_GEN_CARS];
-int southWay[MAX_CARS_TUNNEL];
-int northEntrance[COUNT_GEN_CARS];
-int northWay[MAX_CARS_TUNNEL];
+int southEntrance[GENERATOR_MAX_CARS];
+int southWay[TUNNEL_MAX_CARS];
+int northEntrance[GENERATOR_MAX_CARS];
+int northWay[TUNNEL_MAX_CARS];
 
 /*
 MAIN FUNCTION

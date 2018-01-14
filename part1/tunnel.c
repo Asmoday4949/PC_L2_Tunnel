@@ -2,13 +2,13 @@
 
 int start()
 {
-    pthread_t threads[COUNT_GEN_CARS];
+    pthread_t threads[GENERATOR_MAX_CARS];
     pthread_t display;
 
-    initArray(northEntrance, COUNT_GEN_CARS, NOTVALID);
-    initArray(northWay, MAX_CARS_TUNNEL, NOTVALID);
-    initArray(southEntrance, COUNT_GEN_CARS, NOTVALID);
-    initArray(southWay, MAX_CARS_TUNNEL, NOTVALID);
+    initArray(northEntrance, GENERATOR_MAX_CARS, NOTVALID);
+    initArray(northWay, TUNNEL_MAX_CARS, NOTVALID);
+    initArray(southEntrance, GENERATOR_MAX_CARS, NOTVALID);
+    initArray(southWay, TUNNEL_MAX_CARS, NOTVALID);
 
     if(pthread_create(&display, NULL, display, NULL) != 0)
     {
@@ -17,7 +17,7 @@ int start()
 
     //starting the car
     int i;
-    for(i = 0;i < COUNT_GEN_CARS; i++)
+    for(i = 0;i < GENERATOR_MAX_CARS; i++)
     {
         if(pthread_create(&threads[i], NULL, car, &i) != 0)
         {
@@ -26,7 +26,7 @@ int start()
     }
 
 
-    for(i = 0; i < COUNT_GEN_CARS; i++)
+    for(i = 0; i < GENERATOR_MAX_CARS; i++)
     {
         pthread_join(threads[i], NULL);
     }
@@ -52,25 +52,25 @@ void* car(int* idCar)
 void* display(void* data)
 {
     printf("north entrance : ");
-    printArray(northEntrance, COUNT_GEN_CARS);
+    printArray(northEntrance, GENERATOR_MAX_CARS);
 
     rc();rc();
 
     //tunnel
     printWall(TUNNEL_DEFAULT_LENGTH);
     rc();
-    printArray(northWay, MAX_CARS_TUNNEL);
+    printArray(northWay, TUNNEL_MAX_CARS);
     rc();
     printRoadMark(TUNNEL_DEFAULT_LENGTH);
     rc();
-    printArray(southWay, MAX_CARS_TUNNEL);
+    printArray(southWay, TUNNEL_MAX_CARS);
     rc();
     printWall(TUNNEL_DEFAULT_LENGTH);
 
     rc();rc();
 
     printf("south entrance : ");
-    printArray(southEntrance, COUNT_GEN_CARS);
+    printArray(southEntrance, GENERATOR_MAX_CARS);
     rc();
 }
 
