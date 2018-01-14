@@ -46,8 +46,10 @@
 1515953033 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.c
 	"tools.h"
 
-1515951852 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.h
+1515954263 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.h
 	<time.h>
+	<stdio.h>
+	<stdlib.h>
 	<stdbool.h>
 
 1515935311 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\main.c

@@ -2,6 +2,8 @@
 #define TOOLS_H_INCLUDED
 
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #define NOTVALID -1
