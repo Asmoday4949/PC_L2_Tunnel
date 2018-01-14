@@ -6,9 +6,16 @@
 
 #define NOTVALID -1
 
+enum Direction
+{
+    RIGHT = 1,
+    LEFT = -1
+};
+
 void initArray(int* array, int size, int value);
 void printArray(int* array, int size);
 int getArrayLength(int* array, int size, int endValue);
+void shiftArrayElements(int* array, int size, enum Direction direction);
 void rc();
 
 double getElapsedTime(clock_t* clockStart, clock_t* clockEnd);

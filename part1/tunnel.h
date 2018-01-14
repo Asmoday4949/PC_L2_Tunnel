@@ -11,13 +11,18 @@
 // Used for printing debug info
 #define DEBUG
 
-// Program constants
+// Program macros
 #define TUNNEL_MAX_CARS 20
 #define TUNNEL_DEFAULT_LENGTH 25
 #define GENERATOR_MAX_CARS 50
 #define GENERATOR_SPAWNER_TIME 0.1
-#define SOUTH_WAY 0
-#define NORTH_WAY 1
+
+// Enums
+enum Path
+{
+    NORTH_WAY = 0,
+    SOUTH_WAY = 1
+};
 
 // Array of cars
 int southEntrance[GENERATOR_MAX_CARS];

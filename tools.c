@@ -19,6 +19,7 @@ void printArray(int* array, int size)
             printf("%d ", array[i]);
         }
     }
+    printf("\n");
 }
 
 int getArrayLength(int* array, int size, int endValue)
@@ -37,6 +38,30 @@ int getArrayLength(int* array, int size, int endValue)
     }
 
     return length;
+}
+
+void shiftArrayElements(int* array, int size, enum Direction direction)
+{
+    if(direction == LEFT)
+    {
+        int tmp = array[0];
+
+        for(int i = 0;i < size-1; i++)
+        {
+            array[i] = array[i+1];
+        }
+        array[size-1] = tmp;
+    }
+    else if(direction == RIGHT)
+    {
+        int tmp = array[size-1];
+
+        for(int i = size-2;i >= 0; i--)
+        {
+            array[i+1] = array[i];
+        }
+        array[0] = tmp;
+    }
 }
 
 void rc()
