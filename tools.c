@@ -72,3 +72,13 @@ double getElapsedTime(clock_t* clockStart, clock_t* clockEnd)
 {
     return (double)(*clockEnd - *clockStart) / (CLOCKS_PER_SEC);
 }
+
+void clearConsole()
+{
+    // Compatibility for Windows and Linux
+    #if defined(_WIN32)
+        system("cls");
+    #elif defined(__linux__)
+        system("clear");
+    #endif // defined
+}

@@ -20,4 +20,6 @@ void rc();
 
 double getElapsedTime(clock_t* clockStart, clock_t* clockEnd);
 
+void clearConsole();
+
 #endif // TOOLS_H_INCLUDED
