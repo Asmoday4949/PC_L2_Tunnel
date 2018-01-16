@@ -82,3 +82,13 @@ void clearConsole()
         system("clear");
     #endif // defined
 }
+
+void sleep(int ms)
+{
+    #if defined(_WIN32)
+        Sleep(ms);
+    #elif defined(__linux__)
+       usleep(ms*1000);
+    #endif
+
+}

@@ -9,6 +9,7 @@ int start()
     sem_init(&semNorthWay, 0, 1);
     sem_init(&semSouthEntrance, 0, 1);
     sem_init(&semSouthWay, 0, 1);
+    sem_init(&semTunnel, 0, TUNNEL_MAX_CARS);
 
     initArray(northEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(northWay, TUNNEL_MAX_CARS, NOTVALID);
@@ -41,7 +42,7 @@ int start()
             }
 
             #if defined(DEBUG)
-                printf("Car spawned with id = %d\n", carsCounter);
+                //printf("Car spawned with id = %d\n", carsCounter);
             #endif
 
             running = ++carsCounter < GENERATOR_MAX_CARS;
@@ -49,8 +50,6 @@ int start()
         }
     }
     while(running);
-
-    // Some stuff here ?
 
     // Waiting on the end of all the threads
     int i;
@@ -68,51 +67,139 @@ void* car(void* idCar)
 {
     int id = *((int*)idCar);
     enum Path path = definePath();
-    bool outTunnel = true;
-    clock_t clockStart;
-    clock_t clockEnd;
-    double elapsedTime;
+    int iEntrance = -1;
+    int iTunnel = -1;
 
-    do
+    if(path)
     {
-        if(path == NORTH_WAY)
-        {
-
-        }
-        else if(path == SOUTH_WAY)
-        {
-        }
+        sem_wait(&semSouthEntrance);
     }
-    while(!outTunnel);
+    else
+    {
+        sem_wait(&semNorthEntrance);
+    }
+
+    int i = 0;
+    while(iEntrance == -1)
+    {
+        if(path && southEntrance[i] == -1)
+        {
+            iEntrance = i;
+            southEntrance[i] = id;
+        }
+        else if(!path && northEntrance[i] == -1)
+        {
+            iEntrance = i;
+            northEntrance[i] = id;
+        }
+        i++;
+    }
+
+    if(path)
+    {
+        sem_post(&semSouthEntrance);
+    }
+    else
+    {
+        sem_post(&semNorthEntrance);
+    }
+
+    sem_wait(&semTunnel);
+
+    if(path)
+    {
+        sem_wait(&semSouthWay);
+    }
+    else
+    {
+        sem_wait(&semNorthWay);
+    }
+
+    i = 0;
+    while(iTunnel == -1)
+    {
+        if(path && southWay[i] == -1)
+        {
+            iTunnel = i;
+            southWay[i] = id;
+
+            sem_wait(&semSouthEntrance);
+            southEntrance[iEntrance] = -1;
+            sem_post(&semSouthEntrance);
+        }
+        else if(!path && northWay[i] == -1)
+        {
+            iTunnel = i;
+            northWay[i] = id;
+
+            sem_wait(&semNorthEntrance);
+            northEntrance[iEntrance] = -1;
+            sem_post(&semNorthEntrance);
+        }
+
+        i++;
+    }
+
+    if(path)
+    {
+        sem_post(&semSouthWay);
+    }
+    else
+    {
+        sem_post(&semNorthWay);
+    }
+
+    sleep(TIME_IN_TUNNEL);
+
+    if(path)
+    {
+        sem_wait(&semSouthWay);
+        southWay[iTunnel] = -1;
+        sem_post(&semSouthWay);
+    }
+    else
+    {
+        sem_wait(&semNorthWay);
+        northWay[iTunnel] = -1;
+        sem_post(&semNorthWay);
+    }
+
+    sem_post(&semTunnel);
 
     return NULL;
 }
 
 void* display(void* data)
 {
-    clearConsole();
+    bool isDisplaying = 1;
+    while(isDisplaying)
+    {
+        clearConsole();
 
-    printf("north entrance : ");
-    printArray(northEntrance, GENERATOR_MAX_CARS);
+        printf("north entrance : ");
+        printArray(northEntrance, GENERATOR_MAX_CARS);
 
-    rc();rc();
+        rc();
 
-    //tunnel
-    printWall(TUNNEL_DEFAULT_LENGTH);
-    rc();
-    printArray(northWay, TUNNEL_MAX_CARS);
-    rc();
-    printRoadMark(TUNNEL_DEFAULT_LENGTH);
-    rc();
-    printArray(southWay, TUNNEL_MAX_CARS);
-    rc();
-    printWall(TUNNEL_DEFAULT_LENGTH);
+        //tunnel
+        printWall(TUNNEL_DEFAULT_LENGTH);
+        rc();
+        printArray(northWay, TUNNEL_MAX_CARS);
+        rc();
+        printRoadMark(TUNNEL_DEFAULT_LENGTH);
+        rc();
+        printArray(southWay, TUNNEL_MAX_CARS);
+        rc();
+        printWall(TUNNEL_DEFAULT_LENGTH);
 
-    rc();rc();
+        rc();
 
-    printf("south entrance : ");
-    printArray(southEntrance, GENERATOR_MAX_CARS);
-    rc();
+        printf("south entrance : ");
+        printArray(southEntrance, GENERATOR_MAX_CARS);
+        rc();
+        sleep(REFRESH_RATE_DISPLAY); //Every 100ms
+    }
+
 
     return NULL;
 }

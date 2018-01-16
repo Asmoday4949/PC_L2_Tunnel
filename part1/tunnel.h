@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <unistd.h>
+#include <windows.h>
 #include "../tools.h"
 
 // Used for printing debug info
@@ -17,6 +19,8 @@
 #define TUNNEL_TROUGH_TIME 10
 #define GENERATOR_MAX_CARS 50
 #define GENERATOR_SPAWNER_TIME 0.1
+#define TIME_IN_TUNNEL 5000 //5sec
+#define REFRESH_RATE_DISPLAY 100
 
 // Enums
 enum Path
@@ -30,6 +34,9 @@ sem_t semSouthEntrance;
 sem_t semSouthWay;
 sem_t semNorthEntrance;
 sem_t semNorthWay;
+
+//semaphore which represent the tunnel and the 20 slots
+sem_t semTunnel;
 
 // Array of cars
 int southEntrance[GENERATOR_MAX_CARS];
