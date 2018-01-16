@@ -42,7 +42,7 @@ int start()
             }
 
             #if defined(DEBUG)
-                //printf("Car spawned with id = %d\n", carsCounter);
+                printf("Car spawned with id = %d\n", carsCounter);
             #endif
 
             running = ++carsCounter < GENERATOR_MAX_CARS;

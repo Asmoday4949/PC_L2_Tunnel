@@ -11,12 +11,11 @@
 #include "../tools.h"
 
 // Used for printing debug info
-#define DEBUG
+//#define DEBUG
 
 // Program macros
-#define TUNNEL_MAX_CARS 5
+#define TUNNEL_MAX_CARS 20
 #define TUNNEL_DEFAULT_LENGTH 25
-#define TUNNEL_TROUGH_TIME 10
 #define GENERATOR_MAX_CARS 50
 #define GENERATOR_SPAWNER_TIME 0.1
 #define TIME_IN_TUNNEL 5000 //5sec
@@ -66,7 +65,5 @@ void printRoadMark(int size);
 function to define north or south way
 */
 int definePath();
-
-
 
 #endif // TUNNEL_H_INCLUDED
