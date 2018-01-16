@@ -51,30 +51,47 @@
 1516106403 source:d:\prog_concurente\laboratoire\labo2\pc_l2_tunnel\tools.c
 	"tools.h"
 
-1515953033 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.c
+1516130533 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.c
 	"tools.h"
 
-1515954263 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.h
+1516126985 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tools.h
 	<time.h>
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
+	<windows.h>
+	<unistd.h>
 
-1515935311 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\main.c
+1516130895 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\main.c
 	<stdio.h>
 	<stdlib.h>
 	"part1/tunnel.h"
 	"part2/tunnel.h"
 	"part3/tunnel.h"
 
-1515952869 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part1\tunnel.h
+1516130547 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part1\tunnel.h
 	<time.h>
 	<stdio.h>
 	<stdlib.h>
 	<pthread.h>
 	<semaphore.h>
+	<unistd.h>
+	<windows.h>
 	"../tools.h"
 
-1515952907 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part1\tunnel.c
+1516130576 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part1\tunnel.c
+	"tunnel.h"
+
+1516130766 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part2\tunnel.h
+	<time.h>
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+	<semaphore.h>
+	<unistd.h>
+	<windows.h>
+	"../tools.h"
+
+1516130621 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\part2\tunnel.c
 	"tunnel.h"
 
