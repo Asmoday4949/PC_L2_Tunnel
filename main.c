@@ -5,7 +5,7 @@
 // PART1 --> Semaphores without restrictions per way
 // PART2 --> Semaphores with restrictions per way
 // PART3 --> Monitors version of the previous part
-#define PART1
+#define PART3
 
 #if defined(PART1)
     #include "part1/tunnel.h"

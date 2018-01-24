@@ -39,10 +39,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="part1/tunnel.c">
+		<Unit filename="part3/tunnel.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="part1/tunnel.h" />
+		<Unit filename="part3/tunnel.h" />
 		<Unit filename="tools.c">
 			<Option compilerVar="CC" />
 		</Unit>
