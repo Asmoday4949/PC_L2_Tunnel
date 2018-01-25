@@ -5,13 +5,9 @@ int start()
     pthread_t carThreads[GENERATOR_MAX_CARS];
     pthread_t displayThread;
 
-    sem_init(&semNorthEntrance, 0, 1);
-    sem_init(&semNorthWay, 0, 1);
-    sem_init(&semSouthEntrance, 0, 1);
-    sem_init(&semSouthWay, 0, 1);
-    sem_init(&semTunnel, 0, TUNNEL_MAX_CARS);
-    sem_init(&semSouthWayCars, 0, TUNNEL_MAX_CARS_PER_WAY);
-    sem_init(&semNorthWayCars, 0, TUNNEL_MAX_CARS_PER_WAY);
+
+
+    initCondTunnel(condTunnel);
 
     initArray(northEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(northWay, TUNNEL_MAX_CARS, NOTVALID);
@@ -44,7 +40,7 @@ int start()
             }
 
             #if defined(DEBUG)
-                printf("Car spawned with id = %d\n", carsCounter);
+                //printf("Car spawned with id = %d\n", carsCounter);
             #endif
 
             running = ++carsCounter < GENERATOR_MAX_CARS;
@@ -65,6 +61,15 @@ int start()
     return 0;
 }
 
+void initCondTunnel(COND_TUNNEL* condTunnel)
+{
+    condTunnel->carsInTunnel = 0;
+    condTunnel->carsOnSouth = 0;
+    condTunnel->carsOnNorth = 0;
+    pthread_mutex_init(&condTunnel->mutCarsInTunnel, NULL);
+    pthread_cond_init(&condTunnel->condCarsInTunnel, NULL);
+}
+
 void* car(void* idCar)
 {
     int id = *((int*)idCar);
@@ -74,11 +79,11 @@ void* car(void* idCar)
 
     if(path)
     {
-        sem_wait(&semSouthEntrance);
+        pthread_mutex_lock(&mutSouthEntrance);
     }
     else
     {
-        sem_wait(&semNorthEntrance);
+        pthread_mutex_lock(&mutNorthEntrance);
     }
 
     int i = 0;
@@ -99,78 +104,93 @@ void* car(void* idCar)
 
     if(path)
     {
-        sem_post(&semSouthEntrance);
+        pthread_mutex_unlock(&mutSouthEntrance);
     }
     else
     {
-        sem_post(&semNorthEntrance);
+        pthread_mutex_unlock(&mutNorthEntrance);
     }
+    // jusque là c'est bon
 
-    sem_wait(&semTunnel);
+    pthread_mutex_lock(&condTunnel->mutCarsInTunnel);
+	while(condTunnel->carsInTunnel >= TUNNEL_MAX_CARS && (path && condTunnel->carsOnSouth >= TUNNEL_MAX_CARS_PER_WAY || !path && condTunnel->carsOnNorth >= TUNNEL_MAX_CARS_PER_WAY))
+	{
+	    pthread_cond_wait(&condTunnel->condCarsInTunnel, &condTunnel->mutCarsInTunnel);
+	}
 
-    if(path)
-    {
-        sem_wait(&semSouthWayCars);
-        sem_wait(&semSouthWay);
-    }
-    else
-    {
-        sem_wait(&semNorthWayCars);
-        sem_wait(&semNorthWay);
-    }
+	condTunnel->carsInTunnel++;
+
+
+    //boucle à changer
+
 
     i = 0;
     while(iTunnel == -1)
     {
+        if(path)
+        {
+            pthread_mutex_lock(&mutSouthWay);
+        }
+        else
+        {
+
+        }
         if(path && southWay[i] == -1)
         {
             iTunnel = i;
             southWay[i] = id;
 
-            sem_wait(&semSouthEntrance);
+            pthread_mutex_unlock(&mutSouthEntrance);
             southEntrance[iEntrance] = -1;
-            sem_post(&semSouthEntrance);
+            pthread_mutex_unlock(&mutSouthEntrance);
+
+            condTunnel->carsOnSouth++;
         }
         else if(!path && northWay[i] == -1)
         {
             iTunnel = i;
             northWay[i] = id;
 
-            sem_wait(&semNorthEntrance);
+            pthread_mutex_unlock(&mutNorthEntrance);
             northEntrance[iEntrance] = -1;
-            sem_post(&semNorthEntrance);
+            pthread_mutex_unlock(&mutNorthEntrance);
+
+            condTunnel->carsOnNorth++;
+        }
+        if(path)
+        {
+            pthread_mutex_unlock(&mutSouthWay);
+        }
+        else
+        {
+            pthread_mutex_unlock(&mutNorthWay);
         }
 
         i++;
     }
 
-    if(path)
-    {
-        sem_post(&semSouthWay);
-    }
-    else
-    {
-        sem_post(&semNorthWay);
-    }
+    pthread_mutex_unlock(&condTunnel->mutCarsInTunnel);
 
     sleep(TIME_IN_TUNNEL);
 
+    //libération
     if(path)
     {
-        sem_wait(&semSouthWay);
+        pthread_mutex_lock(&mutSouthWay);
         southWay[iTunnel] = -1;
-        sem_post(&semSouthWay);
-        sem_post(&semSouthWayCars);
+        condTunnel->carsOnNorth--;
+        pthread_mutex_unlock(&mutSouthWay);;
     }
     else
     {
-        sem_wait(&semNorthWay);
+        pthread_mutex_unlock(&mutNorthWay);
         northWay[iTunnel] = -1;
-        sem_post(&semNorthWay);
-        sem_post(&semNorthWayCars);
+        condTunnel->carsOnNorth--;
+        pthread_mutex_unlock(&mutNorthWay);
     }
 
-    sem_post(&semTunnel);
+    condTunnel->carsInTunnel--;
+    pthread_cond_broadcast(&condTunnel->condCarsInTunnel);
 
     return NULL;
 }

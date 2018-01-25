@@ -5,11 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <semaphore.h>
-#include "../tools.h"
 
-// Used for printing debug info
-//#define DEBUG
+#include "../tools.h"
 
 // Program macros
 #define TUNNEL_MAX_CARS 20
@@ -27,18 +24,23 @@ enum Path
     SOUTH_WAY = 1
 };
 
-// Semaphores for protecting the arrays
-sem_t semSouthEntrance;
-sem_t semSouthWay;
-sem_t semNorthEntrance;
-sem_t semNorthWay;
+// mutex for protecting the arrays
+pthread_mutex_t mutSouthEntrance;
+pthread_mutex_t mutSouthWay;
+pthread_mutex_t mutNorthEntrance;
+pthread_mutex_t mutNorthWay;
 
-//semaphore which represent the tunnel and the 20 slots
-sem_t semTunnel;
+//conditions
+typedef struct
+{
+	int carsInTunnel;
+	int carsOnSouth;
+	int carsOnNorth;
+	pthread_mutex_t mutCarsInTunnel;
+	pthread_cond_t condCarsInTunnel;
+} COND_TUNNEL;
 
-// Semaphores for the slots per way
-sem_t semSouthWayCars;
-sem_t semNorthWayCars;
+COND_TUNNEL* condTunnel;
 
 // Array of cars
 int southEntrance[GENERATOR_MAX_CARS];
@@ -50,6 +52,11 @@ int northWay[TUNNEL_MAX_CARS];
 MAIN FUNCTION
 */
 int start();
+
+/*
+INIT FUNCTION
+*/
+void initCondTunnel(COND_TUNNEL* condTunnel);
 
 /*
 Thread function, each car thread represent a car
@@ -68,7 +75,5 @@ void printRoadMark(int size);
 function to define north or south way
 */
 int definePath();
-
-
 
 #endif // TUNNEL_H_INCLUDED
