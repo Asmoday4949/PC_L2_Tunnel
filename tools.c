@@ -21,18 +21,15 @@ void printArray(int* array, int size)
     }
 }
 
-int getArrayLength(int* array, int size, int endValue)
+int getArrayLength(int* array, int size, int badValue)
 {
     int length = 0;
-    bool lengthFound = false;
 
-    while(length < size && !lengthFound)
+    for(int i = 0;i < size; i++)
     {
-        lengthFound = array[length] == endValue;
-
-        if(!lengthFound)
+        if(array[i] > badValue)
         {
-            length++;
+            length += 1;
         }
     }
 
