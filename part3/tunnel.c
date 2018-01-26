@@ -5,9 +5,7 @@ int start()
     pthread_t carThreads[GENERATOR_MAX_CARS];
     pthread_t displayThread;
 
-
-
-    initCondTunnel(condTunnel);
+    initCondTunnel(&condTunnel);
 
     initArray(northEntrance, GENERATOR_MAX_CARS, NOTVALID);
     initArray(northWay, TUNNEL_MAX_CARS, NOTVALID);
@@ -64,10 +62,10 @@ int start()
 void initCondTunnel(COND_TUNNEL* condTunnel)
 {
     condTunnel->carsInTunnel = 0;
-    condTunnel->carsOnSouth = 0;
+    /*condTunnel->carsOnSouth = 0;
     condTunnel->carsOnNorth = 0;
     pthread_mutex_init(&condTunnel->mutCarsInTunnel, NULL);
-    pthread_cond_init(&condTunnel->condCarsInTunnel, NULL);
+    pthread_cond_init(&condTunnel->condCarsInTunnel, NULL);*/
 }
 
 void* car(void* idCar)
@@ -112,13 +110,13 @@ void* car(void* idCar)
     }
     // jusque là c'est bon
 
-    pthread_mutex_lock(&condTunnel->mutCarsInTunnel);
-	while(condTunnel->carsInTunnel >= TUNNEL_MAX_CARS && (path && condTunnel->carsOnSouth >= TUNNEL_MAX_CARS_PER_WAY || !path && condTunnel->carsOnNorth >= TUNNEL_MAX_CARS_PER_WAY))
+    pthread_mutex_lock(&(condTunnel.mutCarsInTunnel));
+	while(condTunnel.carsInTunnel >= TUNNEL_MAX_CARS && (path && condTunnel.carsOnSouth >= TUNNEL_MAX_CARS_PER_WAY || !path && condTunnel.carsOnNorth >= TUNNEL_MAX_CARS_PER_WAY))
 	{
-	    pthread_cond_wait(&condTunnel->condCarsInTunnel, &condTunnel->mutCarsInTunnel);
+	    pthread_cond_wait(&(condTunnel.condCarsInTunnel), &(condTunnel.mutCarsInTunnel));
 	}
 
-	condTunnel->carsInTunnel++;
+	condTunnel.carsInTunnel++;
 
 
     //boucle à changer
@@ -144,7 +142,7 @@ void* car(void* idCar)
             southEntrance[iEntrance] = -1;
             pthread_mutex_unlock(&mutSouthEntrance);
 
-            condTunnel->carsOnSouth++;
+            condTunnel.carsOnSouth++;
         }
         else if(!path && northWay[i] == -1)
         {
@@ -155,7 +153,7 @@ void* car(void* idCar)
             northEntrance[iEntrance] = -1;
             pthread_mutex_unlock(&mutNorthEntrance);
 
-            condTunnel->carsOnNorth++;
+            condTunnel.carsOnNorth++;
         }
         if(path)
         {
@@ -169,7 +167,7 @@ void* car(void* idCar)
         i++;
     }
 
-    pthread_mutex_unlock(&condTunnel->mutCarsInTunnel);
+    pthread_mutex_unlock(&(condTunnel.mutCarsInTunnel));
 
     sleep(TIME_IN_TUNNEL);
 
@@ -178,19 +176,19 @@ void* car(void* idCar)
     {
         pthread_mutex_lock(&mutSouthWay);
         southWay[iTunnel] = -1;
-        condTunnel->carsOnNorth--;
+        condTunnel.carsOnNorth--;
         pthread_mutex_unlock(&mutSouthWay);;
     }
     else
     {
         pthread_mutex_unlock(&mutNorthWay);
         northWay[iTunnel] = -1;
-        condTunnel->carsOnNorth--;
+        condTunnel.carsOnNorth--;
         pthread_mutex_unlock(&mutNorthWay);
     }
 
-    condTunnel->carsInTunnel--;
-    pthread_cond_broadcast(&condTunnel->condCarsInTunnel);
+    condTunnel.carsInTunnel--;
+    pthread_cond_broadcast(&(condTunnel.condCarsInTunnel));
 
     return NULL;
 }

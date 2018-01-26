@@ -40,7 +40,7 @@ typedef struct
 	pthread_cond_t condCarsInTunnel;
 } COND_TUNNEL;
 
-COND_TUNNEL* condTunnel;
+COND_TUNNEL condTunnel;
 
 // Array of cars
 int southEntrance[GENERATOR_MAX_CARS];
