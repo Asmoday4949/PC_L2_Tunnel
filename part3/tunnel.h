@@ -12,7 +12,7 @@
 #define TUNNEL_MAX_CARS 20
 #define TUNNEL_DEFAULT_LENGTH 25
 #define TUNNEL_MAX_CARS_PER_WAY 12
-#define GENERATOR_MAX_CARS 100
+#define GENERATOR_MAX_CARS 30
 #define GENERATOR_SPAWNER_TIME 0.1
 #define TIME_IN_TUNNEL 5000 //5sec
 #define REFRESH_RATE_DISPLAY 100
@@ -67,6 +67,7 @@ void* car(void *idCar);
 thread for displaying the tunnel and the car
 */
 void* display(void* data);
+void printArrayLength(int* array, int size);
 //AESTHIC PURPOSE
 void printWall(int size);
 void printRoadMark(int size);

@@ -24,7 +24,7 @@ enum ShiftDirection
 
 void initArray(int* array, int size, int value);
 void printArray(int* array, int size);
-int getArrayLength(int* array, int size, int endValue);
+int getArrayLength(int* array, int size, int badValue);
 void shiftArrayElements(int* array, int size, enum ShiftDirection direction);
 void rc();
 void sleep(int ms);
