@@ -162,7 +162,7 @@ void* car(void* idCar)
         i++;
     }
 
-    pthread_mutex_unlock(&(condTunnel.mutCarsInTunnel));/*
+    pthread_mutex_unlock(&(condTunnel.mutCarsInTunnel));
 
     sleep(TIME_IN_TUNNEL);
 
@@ -171,7 +171,7 @@ void* car(void* idCar)
     {
         pthread_mutex_lock(&mutSouthWay);
         southWay[iTunnel] = -1;
-        condTunnel.carsOnNorth--;
+        condTunnel.carsOnSouth--;
         pthread_mutex_unlock(&mutSouthWay);;
     }
     else
@@ -182,7 +182,10 @@ void* car(void* idCar)
         pthread_mutex_unlock(&mutNorthWay);
     }
 
-    condTunnel.carsInTunnel--;*/
+    pthread_mutex_lock(&(condTunnel.mutCarsInTunnel));
+    condTunnel.carsInTunnel--;
+    pthread_mutex_unlock(&(condTunnel.mutCarsInTunnel));
+
     pthread_cond_broadcast(&(condTunnel.condCarsInTunnel));
 
     return NULL;
