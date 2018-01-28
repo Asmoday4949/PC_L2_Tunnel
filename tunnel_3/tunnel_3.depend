@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1517127768 source:e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tunnel_3\main.c
+	<stdio.h>
+	<stdlib.h>
+	"tunnel.h"
+
+1517127768 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tunnel_3\tunnel.h
+	<time.h>
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+	"tools.h"
+
+1517127768 e:\ecole\hes_dlm\niveau_2\prog_concurrente\laboratoires\labo2\tunnel_3\tools.h
+	<time.h>
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<windows.h>
+	<unistd.h>
+
