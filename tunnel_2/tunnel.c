@@ -202,6 +202,7 @@ void* display(void* data)
 
         printf("north entrance : ");
         printArray(northEntrance, GENERATOR_MAX_CARS);
+        printArrayLength(northEntrance, GENERATOR_MAX_CARS);
 
         rc();
 
@@ -209,10 +210,12 @@ void* display(void* data)
         printWall(TUNNEL_DEFAULT_LENGTH);
         rc();
         printArray(northWay, TUNNEL_MAX_CARS);
+        printArrayLength(northWay, TUNNEL_MAX_CARS);
         rc();
         printRoadMark(TUNNEL_DEFAULT_LENGTH);
         rc();
         printArray(southWay, TUNNEL_MAX_CARS);
+        printArrayLength(southWay, TUNNEL_MAX_CARS);
         rc();
         printWall(TUNNEL_DEFAULT_LENGTH);
 
@@ -220,12 +223,20 @@ void* display(void* data)
 
         printf("south entrance : ");
         printArray(southEntrance, GENERATOR_MAX_CARS);
+        printArrayLength(southEntrance, GENERATOR_MAX_CARS);
         rc();
         sleep(REFRESH_RATE_DISPLAY); //Every 100ms
     }
 
 
     return NULL;
+}
+
+void printArrayLength(int* array, int size)
+{
+    int length = getArrayLength(array, size, NOTVALID);
+
+    printf("(%d)", length);
 }
 
 void printWall(int size)
