@@ -55,6 +55,7 @@ void* car(void *idCar);
 thread for displaying the tunnel and the car
 */
 void* display(void* data);
+void printArrayLength(int* array, int size);
 //AESTHIC PURPOSE
 void printWall(int size);
 void printRoadMark(int size);
